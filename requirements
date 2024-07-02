@@ -1,0 +1,39 @@
+pip install streamlit
+pip install mlflow
+pip install wordcloud
+pip install tensorflow
+
+numpy==1.21.0
+matplotlib==3.4.3
+scikit-learn>=0.24.2
+
+# Data manipulation and analysis
+pandas
+numpy
+seaborn
+matplotlib
+
+# Regular expressions
+regex
+
+# Machine learning and preprocessing
+scikit-learn
+tensorflow
+
+# Natural Language Processing (NLP)
+nltk
+wordcloud
+
+# Model training and evaluation
+imbalanced-learn
+xgboost
+
+# Streamlit for deployment
+streamlit
+
+# NLTK corpora
+nltk_data
+
+# Pickle for saving/loading models
+pickle
+
