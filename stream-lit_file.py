@@ -54,27 +54,12 @@ def load_data():
 
     return train_df, test_df, X_train, X_val, X_test, y_train, y_val, y_test, vectorizer, le, class_weights_dict
 
+# Load data
 train_df, test_df, X_train, X_val, X_test, y_train, y_val, y_test, vectorizer, le, class_weights_dict = load_data()
 
 # Title and Description
 st.title("News Classification App")
 st.write("Enter news text to classify it into predefined categories.")
-
-# EDA Section
-st.header("Exploratory Data Analysis")
-st.subheader("Summary Statistics for Training Dataset")
-st.write(train_df.describe(include='all'))
-
-st.subheader("Summary Statistics for Test Dataset")
-st.write(test_df.describe(include='all'))
-
-st.subheader("Class Distribution in Training Set")
-plt.figure(figsize=(10, 6))
-sns.countplot(y='category', data=train_df, order=train_df['category'].value_counts().index)
-plt.title('Distribution of News Categories in Training Set')
-plt.xlabel('Count')
-plt.ylabel('Category')
-st.pyplot()
 
 # Input Text
 user_input = st.text_area("Enter news text here", "")
@@ -86,10 +71,13 @@ model_choice = st.selectbox("Choose a model", list(models.keys()))
 if st.button("Classify"):
     if user_input:
         selected_model = models[model_choice]
+        
+        # Vectorize the user input using the fitted vectorizer
         user_input_vectorized = vectorizer.transform([user_input])
         
         prediction = selected_model.predict(user_input_vectorized)
         predicted_label = le.inverse_transform(prediction)
+        
         st.write(f"Predicted category: {predicted_label[0]}")
     else:
         st.write("Please enter some text to classify.")
