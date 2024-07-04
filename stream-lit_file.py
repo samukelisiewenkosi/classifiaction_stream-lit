@@ -177,8 +177,7 @@ def user_guide():
     2. Choose a model from the dropdown list.
     3. Click the 'Classify' button to see the predicted category.
     4. View model evaluation metrics and confusion matrix for validation.
-             
-After classification, you can view model evaluation metrics such as accuracy, classification report, and confusion matrix on the validation set to assess the model's performance.
+    5. After classification, you can view model evaluation metrics such as accuracy, classification report, and confusion matrix on the validation set to assess the model's performance.
     """)
 
 def contact_info():
