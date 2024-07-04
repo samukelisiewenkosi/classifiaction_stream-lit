@@ -2,12 +2,11 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 import seaborn as sns
 
 # Load the models and label encoder
@@ -74,7 +73,6 @@ def main():
     provides an efficient way to categorize news stories automatically.
 
     Explore different models to see how they classify news articles differently. Feel free to reach out for any questions or feedback using the 'Contact Information' section on the sidebar.
-
     """)
 
     # Input Text
@@ -106,9 +104,7 @@ def main():
             # Display confusion matrix using seaborn
             st.subheader("Confusion Matrix")
             cm = confusion_matrix(y_val, y_pred)
-            plt.figure(figsize=(8, 6))
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_)
-            st.pyplot()
+            st.write(sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_))
 
         else:
             st.write("Please enter some text to classify.")
@@ -117,9 +113,9 @@ def main():
 def sidebar_pages():
     st.sidebar.title("Navigation")
     pages = {
+        "Home": main,
         "Introduction": introduction,
         "User Guide": user_guide,
-        "Home": main,
         "Recommendations": recommendations,
         "Contact Info": contact_info
     }
