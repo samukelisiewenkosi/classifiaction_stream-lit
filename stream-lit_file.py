@@ -121,17 +121,7 @@ def main():
             st.write("Confusion Matrix:")
             st.write(cm)
             
-            def plot_confusion_matrix(y_true, y_pred, classes):
-               cm = confusion_matrix(y_true, y_pred)
-               plt.figure(figsize=(8, 6))
-               sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=classes, yticklabels=classes)
-               plt.xlabel('Predicted labels')
-               plt.ylabel('True labels')
-               plt.title('Confusion Matrix')
-               plt.show()
-
-               # Usage example
-               plot_confusion_matrix(y_val, y_pred, classes=le.classes_)
+            
             
         else:
             st.write("Please enter some text to classify.")
