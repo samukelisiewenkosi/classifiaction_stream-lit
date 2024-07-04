@@ -8,7 +8,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from sklearn.metrics import plot_confusion_matrix
 import seaborn as sns
 
 # Load the models and label encoder
@@ -119,10 +118,8 @@ def main():
             st.write("Classification Report:")
             st.write(report)
             st.write("Confusion Matrix:")
-            st.write(cm)
-            
-            
-            
+            plot_confusion_matrix(y_val, y_pred, classes=le.classes_)  # Call to custom plot function
+
         else:
             st.write("Please enter some text to classify.")
 
