@@ -2,8 +2,6 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -57,27 +55,66 @@ def load_data():
 # Load data
 train_df, test_df, X_train, X_val, X_test, y_train, y_val, y_test, vectorizer, le, class_weights_dict = load_data()
 
-# Title and Description
-st.title("News Classification App")
-st.write("Enter news text to classify it into predefined categories.")
+# Main Page - News Classification App
+def main():
+    st.title("News Classification App")
+    st.write("Enter news text to classify it into predefined categories.")
 
-# Input Text
-user_input = st.text_area("Enter news text here", "")
+    # Input Text
+    user_input = st.text_area("Enter news text here", "")
 
-# Model Selection
-model_choice = st.selectbox("Choose a model", list(models.keys()))
+    # Model Selection
+    model_choice = st.selectbox("Choose a model", list(models.keys()))
 
-# Prediction
-if st.button("Classify"):
-    if user_input:
-        selected_model = models[model_choice]
-        
-        # Vectorize the user input using the fitted vectorizer
-        user_input_vectorized = vectorizer.transform([user_input])
-        
-        prediction = selected_model.predict(user_input_vectorized)
-        predicted_label = le.inverse_transform(prediction)
-        
-        st.write(f"Predicted category: {predicted_label[0]}")
-    else:
-        st.write("Please enter some text to classify.")
+    # Prediction
+    if st.button("Classify"):
+        if user_input:
+            selected_model = models[model_choice]
+            
+            # Vectorize the user input using the fitted vectorizer
+            user_input_vectorized = vectorizer.transform([user_input])
+            
+            prediction = selected_model.predict(user_input_vectorized)
+            predicted_label = le.inverse_transform(prediction)
+            
+            st.write(f"Predicted category: {predicted_label[0]}")
+        else:
+            st.write("Please enter some text to classify.")
+
+# Sidebar Pages
+def sidebar_pages():
+    st.sidebar.title("Navigation")
+    pages = {
+        "Home": main,
+        "Introduction": introduction,
+        "Recommendations": recommendations,
+        "User Guide": user_guide,
+        "Contact Info": contact_info
+    }
+    selection = st.sidebar.radio("Go to", list(pages.keys()))
+    pages[selection]()
+
+# Additional Pages
+def introduction():
+    st.title("Welcome to News Classification App")
+    st.write("This application classifies news articles into predefined categories using machine learning models.")
+    # Add more content as needed
+
+def recommendations():
+    st.title("Recommendations")
+    st.write("Here are some recommendations for using this application effectively:")
+    # Add recommendations content
+
+def user_guide():
+    st.title("User Guide")
+    st.write("Follow these steps to use the News Classification App:")
+    # Add user guide content
+
+def contact_info():
+    st.title("Contact Information")
+    st.write("For support or inquiries, please contact:")
+    # Add contact information
+
+# Run the app
+if __name__ == "__main__":
+    sidebar_pages()
