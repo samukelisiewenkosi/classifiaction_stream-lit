@@ -7,30 +7,34 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 import seaborn as sns
+import os
 
-# Load the models and label encoder
+# Set the base directory for relative paths
+BASE_DIR = os.path.dirname(__file__)
+
+# Load the models and label encoder using relative paths
 models = {}
-with open('best_lr_model.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'best_lr_model.pkl'), 'rb') as f:
     models['Logistic Regression'] = pickle.load(f)
-with open('best_rf_model.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'best_rf_model.pkl'), 'rb') as f:
     models['Random Forest'] = pickle.load(f)
-with open('best_xgb_model.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'best_xgb_model.pkl'), 'rb') as f:
     models['XGBoost'] = pickle.load(f)
-with open('best_mnb_model.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'best_mnb_model.pkl'), 'rb') as f:
     models['Multinomial Naive Bayes'] = pickle.load(f)
-with open('best_svm_model.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'best_svm_model.pkl'), 'rb') as f:
     models['SVM'] = pickle.load(f)
 
-with open('label_encoder.pkl', 'rb') as f:
+with open(os.path.join(BASE_DIR, 'label_encoder.pkl'), 'rb') as f:
     le = pickle.load(f)
 
 # Load and preprocess the data
-@st.cache(allow_output_mutation=True)
+@st.cache_data
 def load_data():
-    train_df = pd.read_csv('train.csv')
-    test_df = pd.read_csv('test.csv')
+    train_df = pd.read_csv(os.path.join(BASE_DIR, 'train.csv'))
+    test_df = pd.read_csv(os.path.join(BASE_DIR, 'test.csv'))
 
     # Combine text features into a single feature
     train_df['text'] = train_df['headlines'] + " " + train_df['description'] + " " + train_df['content']
@@ -74,7 +78,6 @@ def main():
     provides an efficient way to categorize news stories automatically.
 
     Explore different models to see how they classify news articles differently. Feel free to reach out for any questions or feedback using the 'Contact Information' section on the sidebar.
-
     """)
 
     # Input Text
@@ -106,9 +109,9 @@ def main():
             # Display confusion matrix using seaborn
             st.subheader("Confusion Matrix")
             cm = confusion_matrix(y_val, y_pred)
-            plt.figure(figsize=(8, 6))
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_)
-            st.pyplot()
+            fig, ax = plt.subplots(figsize=(8, 6))
+            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_, ax=ax)
+            st.pyplot(fig)
 
         else:
             st.write("Please enter some text to classify.")
@@ -141,7 +144,6 @@ def introduction():
     - **Versatility:** Explore different models to see how they categorize news articles differently.
 
     Use the sidebar navigation to explore recommendations, user guides, and contact information for support or inquiries.
-
     """)
 
 def recommendations():
