@@ -7,10 +7,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+from sklearn.metrics import classification_report, accuracy_score
 import seaborn as sns
 import os
-
 
 # Set the base directory for relative paths
 BASE_DIR = os.path.dirname(__file__)
@@ -107,12 +106,12 @@ def main():
             st.write("Classification Report:")
             st.write(report)
             
-            # Display confusion matrix using seaborn
-            st.subheader("Confusion Matrix")
-            cm = confusion_matrix(y_val, y_pred)
-            fig, ax = plt.subplots(figsize=(8, 6))
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_, ax=ax)
-            st.pyplot(fig)
+            # Comment out or remove the confusion matrix section
+            # st.subheader("Confusion Matrix")
+            # cm = confusion_matrix(y_val, y_pred)
+            # fig, ax = plt.subplots(figsize=(8, 6))
+            # sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=le.classes_, yticklabels=le.classes_, ax=ax)
+            # st.pyplot(fig)
 
         else:
             st.write("Please enter some text to classify.")
